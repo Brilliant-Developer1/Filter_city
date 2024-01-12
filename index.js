@@ -8,12 +8,23 @@ function runIt() {
     // Add new cityCards
     const cities = data.map(city => {
       const allCity = city.city;
-      console.log(city);
+      //   console.log(city);
 
-      if (allCity.toLowerCase().includes(inputText)) {
+      if (
+        city.city.toLowerCase().includes(inputText) ||
+        city.state.toLowerCase().includes(inputText)
+      ) {
         const cityCard = document.createElement('li');
-        const cityText = document.createTextNode(allCity);
+        const cityText = document.createTextNode(city.city + ', ' + city.state);
         cityCard.appendChild(cityText);
+        const states = document.createElement('span');
+        const statesText = document.createTextNode(
+          Number(city.population).toLocaleString('en-US')
+        );
+
+        states.appendChild(statesText);
+        states.classList.add('population');
+        cityCard.appendChild(states);
         search.appendChild(cityCard);
       }
     });
