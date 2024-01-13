@@ -5,18 +5,29 @@ function runIt() {
     while (search.firstChild) {
       search.removeChild(search.firstChild);
     }
-    // Add new cityCards
-    const cities = data.map(city => {
-      const allCity = city.city;
-      //   console.log(city);
 
+    // Add new cityCards
+    data.map(city => {
       if (
-        city.city.toLowerCase().includes(inputText) ||
-        city.state.toLowerCase().includes(inputText)
+        city.city.toLowerCase().includes(inputText.toLowerCase()) ||
+        city.state.toLowerCase().includes(inputText.toLowerCase())
       ) {
         const cityCard = document.createElement('li');
-        const cityText = document.createTextNode(city.city + ', ' + city.state);
-        cityCard.appendChild(cityText);
+        const cityCardDiv = document.createElement('div');
+
+        // Create highlighted city and state text
+        const originalText = city.city + ', ' + city.state;
+        const highlightedText = originalText.replace(
+          new RegExp(inputText.toLowerCase(), 'gi'),
+          `<span class="hl">$&</span>`
+        );
+        const cityText = document
+          .createRange()
+          .createContextualFragment(highlightedText);
+
+        cityCardDiv.appendChild(cityText);
+        cityCard.appendChild(cityCardDiv);
+
         const states = document.createElement('span');
         const statesText = document.createTextNode(
           Number(city.population).toLocaleString('en-US')
